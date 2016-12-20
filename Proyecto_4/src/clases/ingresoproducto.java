@@ -49,7 +49,7 @@ public class ingresoproducto extends javax.swing.JFrame {
             sql = "SELECT tbl_producte.prod_id, tbl_producte.prod_nom, tbl_producte.prod_preu, tbl_producte.prod_foto, tbl_categoria.categoria_nom, tbl_estoc.estoc_q_max, tbl_estoc.estoc_q_min, tbl_estoc.estoc_q_actual FROM tbl_producte INNER JOIN tbl_estoc ON tbl_producte.prod_id = tbl_estoc.prod_id INNER JOIN tbl_categoria ON tbl_producte.categoria_id = tbl_categoria.categoria_id";
 
         } else {
-            sql = "SELECT * FROM tbl_producte WHERE prod_nom LIKE '%" + valor + "%'";
+            sql = "SELECT tbl_producte.prod_id, tbl_producte.prod_nom, tbl_producte.prod_preu, tbl_producte.prod_foto, tbl_categoria.categoria_nom, tbl_estoc.estoc_q_max, tbl_estoc.estoc_q_min, tbl_estoc.estoc_q_actual FROM tbl_producte INNER JOIN tbl_estoc ON tbl_producte.prod_id = tbl_estoc.prod_id INNER JOIN tbl_categoria ON tbl_producte.categoria_id = tbl_categoria.categoria_id WHERE tbl_producte.prod_nom LIKE '%" + valor + "%'";
 
         }
 //String []datos = new String [5];
@@ -63,7 +63,7 @@ public class ingresoproducto extends javax.swing.JFrame {
                 datos[2] = rs.getString(3);
                 datos[3] = rs.getString(4);
                 datos[4] = rs.getString(5);
-                //hasta aqui iba
+                
                 datos[5] = rs.getString(6);
                 datos[6] = rs.getString(7);
                 datos[7] = rs.getString(8);
@@ -87,8 +87,8 @@ public class ingresoproducto extends javax.swing.JFrame {
     private void initComponents() {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtcod = new javax.swing.JTextField();
@@ -117,21 +117,21 @@ public class ingresoproducto extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        jMenu1.setText("Modificar");
-        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setText("Actualiza");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu1ActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(jMenu1);
+        jPopupMenu1.add(jMenuItem1);
 
-        jMenu2.setText("Eliminar");
-        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem2.setText("Elimina");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu2ActionPerformed(evt);
+                jMenuItem2ActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(jMenu2);
+        jPopupMenu1.add(jMenuItem2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -174,10 +174,15 @@ public class ingresoproducto extends javax.swing.JFrame {
 
         jLabel6.setText("Precio:");
 
-        txtserie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona...", "Utilitarios", "4x4", "Deportivos", "Berlinas" }));
+        txtserie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Utilitarios", "4x4", "Deportivos", "Berlinas" }));
         txtserie.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtserieActionPerformed(evt);
+            }
+        });
+        txtserie.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtseriePropertyChange(evt);
             }
         });
 
@@ -199,6 +204,13 @@ public class ingresoproducto extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(29, 29, 29)
+                        .addComponent(txtimagen)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnseleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -229,21 +241,14 @@ public class ingresoproducto extends javax.swing.JFrame {
                             .addComponent(txt_min, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblfoto, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(76, 76, 76))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(29, 29, 29)
-                        .addComponent(txtimagen)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnseleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(44, 44, 44))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtcod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
@@ -260,12 +265,14 @@ public class ingresoproducto extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(txtserie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11)
-                            .addComponent(txt_actual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblfoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_actual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblfoto, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtimagen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -345,11 +352,10 @@ public class ingresoproducto extends javax.swing.JFrame {
 
     private void btngrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngrabarActionPerformed
         // TODO add your handling code here:
-        String sql = "INSERT INTO tbl_producte(prod_nom,prod_preu,prod_foto,categoria_id) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO tbl_producte(prod_nom,prod_preu,prod_foto) VALUES (?,?,?)";
         String sql1= "SELECT DISTINCT last_insert_id()";
-        String sql2= "INSERT INTO tbl_estoc(estoc_q_acutal,estoc_q_min,estoc_q_max,prod_id) VALUES (?,?,?,?)";
+        String sql2= "INSERT INTO tbl_estoc()";
         
-       
         try {
             PreparedStatement pst = cn.prepareStatement(sql);
             //pst.setString(1, txtcod.getText());
@@ -381,43 +387,18 @@ public class ingresoproducto extends javax.swing.JFrame {
         mostrardatos("");
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
-        // TODO add your handling code here:
-        int fila = tbproductos.getSelectedRow();
-        if (fila >= 0) {
-            txtcod.setText(tbproductos.getValueAt(fila, 0).toString());
-            txtnombre.setText(tbproductos.getValueAt(fila, 1).toString());
-          //  txtserie.setText(tbproductos.getValueAt(fila, 2).toString());
-        } else {
-            JOptionPane.showMessageDialog(null, "No has seleccionado ninguna fila");
-        }
-    }//GEN-LAST:event_jMenu1ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+         // TODO add your handling code here:
         try {
-            PreparedStatement pst = cn.prepareStatement("UPDATE tbl_producte SET prod_nom='" + txtnombre.getText() + "',categoria_id='" + txtserie.getSelectedIndex() + "' WHERE pro_id='" + txtcod.getText() + "'");
+            //PreparedStatement pst = cn.prepareStatement("UPDATE tbl_producte SET prod_nom='" + txtnombre.getText() + "',prod_preu='" + txtprecio.getText() + "' WHERE prod_id='" + txtcod.getText() + "'");
+            PreparedStatement pst = cn.prepareStatement("UPDATE tbl_producte AS p INNER JOIN tbl_estoc AS e SET p.prod_nom='" + txtnombre.getText() + "',p.prod_preu='" + txtprecio.getText() + "' ,p.prod_foto='" + txtimagen.getText() + "' ,e.estoc_q_actual='" + txt_actual.getText() + "' ,e.estoc_q_min='" + txt_min.getText() + "' ,e.estoc_q_max='" + txt_max.getText() + "' WHERE p.prod_id='" + txtcod.getText() + "' AND e.prod_id='" + txtcod.getText() + "'");
+            
             pst.executeUpdate();
             mostrardatos("");
         } catch (Exception e) {
             System.out.print(e.getMessage());
         }
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
-        // TODO add your handling code here:
-        int fila = tbproductos.getSelectedRow();
-        String cod = "";
-        cod = tbproductos.getValueAt(fila, 0).toString();
-
-        try {
-            PreparedStatement pst = cn.prepareStatement("DELETE FROM tbl_producte WHERE pro_id='" + cod + "'");
-            pst.executeUpdate();
-            mostrardatos("");
-        } catch (Exception e) {
-
-        }
-    }//GEN-LAST:event_jMenu2ActionPerformed
 
     private void btnseleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnseleccionarActionPerformed
         // TODO add your handling code here:
@@ -429,6 +410,7 @@ public class ingresoproducto extends javax.swing.JFrame {
             Image foto = getToolkit().getImage(txtimagen.getText());
             foto = foto.getScaledInstance(110, 110, Image.SCALE_DEFAULT);
             lblfoto.setIcon(new ImageIcon(foto));
+            
         }
     }//GEN-LAST:event_btnseleccionarActionPerformed
 
@@ -451,6 +433,49 @@ public class ingresoproducto extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_txtserieActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        
+        
+        //BOTON NUEVO
+          int fila = tbproductos.getSelectedRow();
+        if (fila >= 0) {
+            txtcod.setText(tbproductos.getValueAt(fila, 0).toString());
+            txtnombre.setText(tbproductos.getValueAt(fila, 1).toString());
+            //txtserie.getSelectedItem(tbproductos.getValueAt(fila, 4).toString());
+            txtimagen.setText(tbproductos.getValueAt(fila, 3).toString());
+            Image foto = getToolkit().getImage(tbproductos.getValueAt(fila, 3).toString());
+            foto = foto.getScaledInstance(110, 110, Image.SCALE_DEFAULT);
+            lblfoto.setIcon(new ImageIcon(foto));
+            txtprecio.setText(tbproductos.getValueAt(fila, 2).toString());
+            txt_min.setText(tbproductos.getValueAt(fila, 6).toString());
+            txt_max.setText(tbproductos.getValueAt(fila, 5).toString());
+            txt_actual.setText(tbproductos.getValueAt(fila, 7).toString());
+          
+        } else {
+            JOptionPane.showMessageDialog(null, "No has seleccionado ninguna fila");
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        int fila = tbproductos.getSelectedRow();
+        String cod = "";
+        cod = tbproductos.getValueAt(fila, 0).toString();
+
+        try {
+            PreparedStatement pst = cn.prepareStatement("DELETE * FROM tbl_producte INNER JOIN tbl_estoc WHERE tbl_producte.prod_id='" + cod + "' AND tbl_estoc.prod_id='" + cod + "'");
+            pst.executeUpdate();
+            mostrardatos("");
+        } catch (Exception e) {
+
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void txtseriePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtseriePropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtseriePropertyChange
 
     /**
      * @param args the command line arguments
@@ -502,8 +527,8 @@ public class ingresoproducto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;

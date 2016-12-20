@@ -192,6 +192,12 @@ public class ingresoproducto extends javax.swing.JFrame {
 
         jLabel11.setText("Stock Actual:");
 
+        txt_min.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_minActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -273,7 +279,6 @@ public class ingresoproducto extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblfoto, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtimagen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
@@ -352,15 +357,72 @@ public class ingresoproducto extends javax.swing.JFrame {
 
     private void btngrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngrabarActionPerformed
         // TODO add your handling code here:
-        String sql = "INSERT INTO tbl_producte(prod_nom,prod_preu,prod_foto) VALUES (?,?,?)";
-        String sql1= "SELECT DISTINCT last_insert_id()";
-        String sql2= "INSERT INTO tbl_estoc()";
+        this.addProducteStock();
+    }
+
+    public void addProducteStock() {
+    Conectar cc = new Conectar();
+    Connection cn = cc.conexion();
+        //Creamos la segunda sentencia
+        String sql1 = "INSERT INTO tbl_producte (prod_nom, prod_precio ,prod_foto) VALUES (?,?,?)";
+       
+        String sql2="select distinct last_insert_id() from  tbl_producte";
         
+        String sql3 = "INSERT INTO tbl_estoc (estoc_q_actual,estoc_q_min,estoc_q_max,prod_id) VALUES (?,?,?,?)";
+        
+        PreparedStatement pst1 = null;
+        Statement st=null;
+        PreparedStatement pst2 = null;
+        ResultSet rs=null;
         try {
+            //solo hace una sentencia sql (false) hace dos sentencias (true)
+            cn.setAutoCommit(false);
+            pst1 = cn.prepareStatement(sql1);
+
+            pst1.setString(1,txtnombre.getText());
+            pst1.setInt(2, Integer.parseInt(txtprecio.getText()));
+            pst1.setString(4, txtimagen.getText());
+            pst1.executeUpdate();
+            JOptionPane.showMessageDialog(null, "viento en popa");
+            //recuperamos el ultimo registro
+            st = cn.createStatement(); 
+            rs = st.executeQuery(sql2);
+            int idst=0;
+            while(rs.next()){
+            idst=rs.getInt(1);
+            }
+           //String idst= rs.toString();
+            JOptionPane.showMessageDialog(null, idst);
+           // System.out.println(idstock);
+           
+            pst2 = cn.prepareStatement(sql3);
+
+            
+            pst2.setInt(1, Integer.parseInt(txt_actual.getText()));
+            pst2.setInt(2, Integer.parseInt(txt_min.getText()));
+            pst2.setInt(3, Integer.parseInt(txt_max.getText()));
+            pst2.setInt(4,idst );            
+            //pst1.executeUpdate();
+            JOptionPane.showMessageDialog(null, "vientoen popa34");
+            pst2.executeUpdate();
+            JOptionPane.showMessageDialog(null, "vientoen popa34");
+           
+            cn.commit();
+             cn.setAutoCommit(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Conexion erronea");
+            try {
+                cn.rollback();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se puede deshacer");
+            }
+            
+        }
+        /*try {
             PreparedStatement pst = cn.prepareStatement(sql);
             //pst.setString(1, txtcod.getText());
             pst.setString(1, txtnombre.getText());
-            pst.setString(2, txtprecio.getText());
+            pst.setInt(2, Integer.parseInt(txtprecio.getText()));
             pst.setInt(3, txtserie.getSelectedIndex());
             pst.setString(4, txtimagen.getText());
             pst.setString(5, txt_min.getText());
@@ -372,7 +434,7 @@ public class ingresoproducto extends javax.swing.JFrame {
             // mostrardatos("");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "Error ");
-        }
+        }*/
 
 
     }//GEN-LAST:event_btngrabarActionPerformed
@@ -465,7 +527,8 @@ public class ingresoproducto extends javax.swing.JFrame {
         cod = tbproductos.getValueAt(fila, 0).toString();
 
         try {
-            PreparedStatement pst = cn.prepareStatement("DELETE * FROM tbl_producte INNER JOIN tbl_estoc WHERE tbl_producte.prod_id='" + cod + "' AND tbl_estoc.prod_id='" + cod + "'");
+            //PreparedStatement pst = cn.prepareStatement("DELETE * FROM tbl_producte INNER JOIN tbl_estoc WHERE tbl_producte.prod_id='" + cod + "' AND tbl_estoc.prod_id='" + cod + "'");
+            PreparedStatement pst = cn.prepareStatement("UPDATE tbl_producte AS p INNER JOIN tbl_estoc AS e SET e.estoc_q_actual='0',e.estoc_q_min='0',e.estoc_q_max='0' WHERE p.prod_id='" + txtcod.getText() + "' AND e.prod_id='" + txtcod.getText() + "'");
             pst.executeUpdate();
             mostrardatos("");
         } catch (Exception e) {
@@ -476,6 +539,10 @@ public class ingresoproducto extends javax.swing.JFrame {
     private void txtseriePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtseriePropertyChange
         // TODO add your handling code here:
     }//GEN-LAST:event_txtseriePropertyChange
+
+    private void txt_minActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_minActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_minActionPerformed
 
     /**
      * @param args the command line arguments

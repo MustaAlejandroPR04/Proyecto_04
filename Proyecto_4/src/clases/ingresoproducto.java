@@ -30,8 +30,23 @@ public class ingresoproducto extends javax.swing.JFrame {
     public ingresoproducto() {
         initComponents();
         mostrardatos("");
+        this.deshabilitar();
     }
-
+    public void habilitar(){
+    
+    jButton3.setEnabled(true);
+    jButton4.setEnabled(true);
+    
+    }
+    
+    public void deshabilitar() {
+    
+    jButton3.setEnabled(false);
+    jButton4.setEnabled(false);
+     
+    }
+            
+            
     void mostrardatos(String valor) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID Producto");
@@ -110,6 +125,7 @@ public class ingresoproducto extends javax.swing.JFrame {
         txt_min = new javax.swing.JTextField();
         txt_max = new javax.swing.JTextField();
         txt_actual = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbproductos = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
@@ -148,6 +164,12 @@ public class ingresoproducto extends javax.swing.JFrame {
         jLabel2.setText("Nombre:");
 
         jLabel3.setText("Categoria:");
+
+        txtnombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtnombreActionPerformed(evt);
+            }
+        });
 
         btngrabar.setText("Guardar");
         btngrabar.addActionListener(new java.awt.event.ActionListener() {
@@ -198,6 +220,13 @@ public class ingresoproducto extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setText("Limpiar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -206,7 +235,9 @@ public class ingresoproducto extends javax.swing.JFrame {
                 .addComponent(btngrabar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addContainerGap(352, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,7 +317,8 @@ public class ingresoproducto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btngrabar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4)))
         );
 
         tbproductos.setModel(new javax.swing.table.DefaultTableModel(
@@ -301,6 +333,12 @@ public class ingresoproducto extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbproductos);
 
         jLabel4.setText("Filtrar:");
+
+        txtbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbuscarActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Buscar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -320,7 +358,7 @@ public class ingresoproducto extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -498,7 +536,7 @@ public class ingresoproducto extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        
+        this.habilitar();
         
         //BOTON NUEVO
           int fila = tbproductos.getSelectedRow();
@@ -544,6 +582,31 @@ public class ingresoproducto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_minActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        //Boton borrar
+        txtcod.setText(null);
+        txtnombre.setText(null);
+        txtprecio.setText(null);
+        txtimagen.setText(null);
+        txt_min.setText(null);
+        txt_max.setText(null);
+        txt_actual.setText(null);
+        lblfoto.setIcon(null);
+        txtbuscar.setText(null);
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void txtnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombreActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtnombreActionPerformed
+
+    private void txtbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtbuscarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -585,6 +648,7 @@ public class ingresoproducto extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
